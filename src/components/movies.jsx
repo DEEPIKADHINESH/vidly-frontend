@@ -9,6 +9,13 @@ class Movies extends Component{
      const movies=this.state.movies.filter(m=>m._id !== movie._id)
      this.setState({movies})
     }
+    handleLike=(movie)=>{
+        const movies=[...this.state.movies];
+        const index=movies.indexOf(movie);
+        movies[index]={...movies[index]};
+        movies[index].liked=!movies[index].liked;
+        this.setState({movies})
+    }
 render(){
     if(this.state.movies.length===0)
             return <p>There are no movies in db</p>
@@ -32,14 +39,11 @@ render(){
             <td>{movie.genre.name}</td>
             <td>{movie.numberInStock}</td>
             <td>{movie.dailyRentalRate}</td>
-            <Like/>
+           <td><Like liked={movie.liked} onClick={()=>this.handleLike(movie)} /></td> {/*here liked is the inbuild property */}
             <td><button className="btn btn-danger" onClick={()=>this.handleDelete(movie)}>DELETE</button></td>
         </tr>))}
-        
-    </tbody>
-    
-    </table>
-
+     </tbody>
+</table>
 </div>
     )
 }
