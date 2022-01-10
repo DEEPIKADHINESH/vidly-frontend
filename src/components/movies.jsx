@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import {getMovies} from "../StarterCode/Starter Code/services/fakeMovieService";
-
+import Like  from "../components/common/like"
 class Movies extends Component{
     state={
         movies:getMovies()
@@ -22,6 +22,8 @@ render(){
         <th>Genre</th>
         <th>Stock</th>
         <th>Rate</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -30,6 +32,7 @@ render(){
             <td>{movie.genre.name}</td>
             <td>{movie.numberInStock}</td>
             <td>{movie.dailyRentalRate}</td>
+            <Like/>
             <td><button className="btn btn-danger" onClick={()=>this.handleDelete(movie)}>DELETE</button></td>
         </tr>))}
         
