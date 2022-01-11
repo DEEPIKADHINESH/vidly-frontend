@@ -33,11 +33,17 @@ handleDelete=(movie)=>{
         this.setState({currentPage:page})
     }
     handleGenreSelect=(genre)=>{
-//console.log(genre)
-this.setState({selectedGenre:genre,currentPage:1})
+        this.setState({selectedGenre:genre,currentPage:1})
     }
     handleSort=(path)=>{
-       this.setState({sortColumn:{path:path,order:"asc"}})
+        const sortColumn={...this.state.sortColumn}
+        if(sortColumn.path===path)//here sortcolum represents cusot either on the title,genre.name 2 more
+        sortColumn.order=sortColumn.order==="asc"?"desc":"asc";//if cursor is on the same path conver the order to desc
+        else{
+            sortColumn.path=path;//if cursor on different path 1st set it to path
+            sortColumn.order="asc"//convert into ascending
+        }
+       this.setState({sortColumn})
     }
 render(){
     const {currentPage,pageSize,selectedGenre,movies:allMovies}=this.state
