@@ -38,14 +38,20 @@ handleDelete=(movie)=>{
     handleSort=(sortColumn)=>{
         this.setState({sortColumn})
     }
+    getPagedData=()=>{
+        const {currentPage,pageSize,selectedGenre,movies:allMovies}=this.state
+        const filtered=selectedGenre && selectedGenre._id ?
+        allMovies.filter(m=>m.genre._id === selectedGenre._id):allMovies
+        const sorted=_.orderBy(filtered,[this.state.sortColumn.path],[this.state.sortColumn.order])
+        const movies=paginate(sorted,currentPage,pageSize);
+        return {totalCount:filtered,data:movies}
+    }
 render(){
-    const {currentPage,pageSize,selectedGenre,movies:allMovies}=this.state
+    
     if(this.state.movies.length===0)
     return <p>There are no movies in db</p>
-    const filtered=selectedGenre && selectedGenre._id ?
-     allMovies.filter(m=>m.genre._id === selectedGenre._id):allMovies
-     const sorted=_.orderBy(filtered,[this.state.sortColumn.path],[this.state.sortColumn.order])
-            const movies=paginate(sorted,currentPage,pageSize)
+    const {totalCount,data:movies}=this.getPagedData()
+   
     return(
         <div className="row">
             <div className="col-2">
@@ -56,16 +62,15 @@ render(){
                 //when item is selected it is rerendered from this.setState of handleGenreSelect
                 onItemSelect={this.handleGenreSelect}
                 />
-                
-            </div>
+        </div>
         <div className="col">
-       <p>Showing {filtered.length} movies in db</p>
+       <p>Showing {totalCount.length} movies in db</p>
 <MoviesTable movies={movies}
              onLike={this.handleLike}
               onDelete={this.handleDelete}
               onSort={this.handleSort}
               sortColumn={this.state.sortColumn}/>
-<Pagination itemsCount={filtered.length} 
+<Pagination itemsCount={totalCount.length} 
 currentPage={this.state.currentPage}
 pageSize={this.state.pageSize} onPageChange={this.handlePageChange}/>
 </div>
