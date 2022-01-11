@@ -35,15 +35,8 @@ handleDelete=(movie)=>{
     handleGenreSelect=(genre)=>{
         this.setState({selectedGenre:genre,currentPage:1})
     }
-    handleSort=(path)=>{
-        const sortColumn={...this.state.sortColumn}
-        if(sortColumn.path===path)//here sortcolum represents cusot either on the title,genre.name 2 more
-        sortColumn.order=sortColumn.order==="asc"?"desc":"asc";//if cursor is on the same path conver the order to desc
-        else{
-            sortColumn.path=path;//if cursor on different path 1st set it to path
-            sortColumn.order="asc"//convert into ascending
-        }
-       this.setState({sortColumn})
+    handleSort=(sortColumn)=>{
+        this.setState({sortColumn})
     }
 render(){
     const {currentPage,pageSize,selectedGenre,movies:allMovies}=this.state
@@ -70,7 +63,8 @@ render(){
 <MoviesTable movies={movies}
              onLike={this.handleLike}
               onDelete={this.handleDelete}
-              onSort={this.handleSort}/>
+              onSort={this.handleSort}
+              sortColumn={this.state.sortColumn}/>
 <Pagination itemsCount={filtered.length} 
 currentPage={this.state.currentPage}
 pageSize={this.state.pageSize} onPageChange={this.handlePageChange}/>
