@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import {Link} from "react-router-dom";
+import Input from "./common/input";
 class Login extends Component{
     state={
         data:{username:"",password:""}
@@ -19,25 +20,22 @@ class Login extends Component{
             <div>
                 <h1>Login</h1>
           <form onSubmit={this.handleSubmit}>
-              <div className="form-group">
-              <label htmlFor="email" >Email</label><br/>
-              <input typeof="email" name="username" id="email"
+          <Input
+              name="username"
+              label="Username"
+              onChange={this.handleChange}
               value={this.state.data.username}
-               onChange={this.handleChange}></input><br/>
-              </div>
-              <div className="form-group">
-              <label htmlFor="password">Password</label><br/>
-              <input typeof="password" name="password"id="password"
-               value={this.state.data.password} onChange={this.handleChange}></input><br/>
-               </div>
+             />
+            <Input
+              name="password"
+              label="Password"
+              onChange={this.handleChange}
+              value={this.state.data.password}/>
                <Link to="/movies"><button className="btn btn-primary">Login</button></Link>
-               
-          </form>
-          
+             </form>
           </div>
         )
-    }
-    
-}
+        }
+        }
 
 export default Login;
