@@ -17,15 +17,15 @@ return(
     <ToastContainer/>
     <main className="container">
       <Switch>
+      <Route path="/movies/:id" component={MoviesForm}/>
         <Route path="/movies" component={Movies}/>
         <Route path="/notfound" component={NotFound}/>
         <Route path="/rentals" component={Rentals}/>
         <Route path="/login" component={Login}/>
         <Route path="/registerForm" component={RegisterForm}/>
-        <Route path="/moviesForm" component={MoviesForm}/>
         <Route path="/customers" component={Customers}/>
         <Redirect from="/"  exact to ="/movies"/>
-        <Redirect to="/notfound"/>
+        <Redirect to="/not-found"></Redirect>
       </Switch>
     </main>
 
