@@ -1,18 +1,23 @@
 import React,{Component} from "react";
-import {Link} from "react-router-dom";
+import Joi from "joi-browser";
 import Input from "./common/input";
 class Login extends Component{
     state={
         data:{username:"",password:""},
         errors:{}
     }
+    schema={
+        username:Joi.string().required().label("Username"),
+        password:Joi.string().required().label("Password")
+    }
     validate=()=>{
+        const {error}=Joi.validate(this.state.data,this.schema,{abortEarly:false});
+        if(!error) return null;
+        //here path and message comes from joi to see this use console.log(result)
         const errors={}
-        if(this.state.data.username.trim()==="")
-       errors.username="username is required"
-        if(this.state.data.password.trim()==="")
-       errors.password="password is required"
-        return Object.keys(errors).length===0 ? null :errors
+        for(let item of error.details)
+        errors[item.path[0]]=item.message;
+        return errors;
     }
 
     handleSubmit=(e)=>{
@@ -25,12 +30,11 @@ class Login extends Component{
         console.log("submitted")
     }
     validateProperty=(input)=>{
-     if(input.name==="username"){
-         if(input.value.trim()==="") return "Username is required"
-     }
-     if(input.name==="password"){
-        if(input.value.trim()==="") return "Password is required"
-    }
+     const obj={[input.name]:input.value}
+     const schema={[input.name]:this.schema[input.name]}
+   const {error}=  Joi.validate(obj,schema)
+   return error?error.details[0].message:null;
+
     }
     handleChange=({currentTarget:input})=>{
         const errors={...this.state.errors};
@@ -55,7 +59,7 @@ class Login extends Component{
              />
             <Input
               name="password"
-              label="Password"
+              label="Password"  
               onChange={this.handleChange}
               value={this.state.data.password}
               error={this.state.errors.password}/>
