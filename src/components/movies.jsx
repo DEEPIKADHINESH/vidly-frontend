@@ -5,6 +5,7 @@ import {paginate} from "../utils/paginate";
 import ListGroup from "./common/listGroup";
 import {getGenres} from "../StarterCode/Starter Code/services/fakeGenreService";
 import MoviesTable from "./moviesTable";
+import {Link} from "react-router-dom";
 import _ from "lodash";
 class Movies extends Component{
     state={
@@ -54,6 +55,7 @@ render(){
    
     return(
         <div className="row">
+           
             <div className="col-2">
                 <ListGroup items={this.state.genres}
                 // textProperty="name"
@@ -65,6 +67,7 @@ render(){
         </div>
         <div className="col">
        <p>Showing {totalCount.length} movies in db</p>
+       <Link to="/movies/new" className="btn btn-primary">NEW MOVIE</Link>
 <MoviesTable movies={movies}
              onLike={this.handleLike}
               onDelete={this.handleDelete}

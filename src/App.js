@@ -17,7 +17,7 @@ return(
     <ToastContainer/>
     <main className="container">
       <Switch>
-      <Route path="/movies/:id" component={MoviesForm}/>
+      <Route path="/movies/new" component={MoviesForm}/>
         <Route path="/movies" component={Movies}/>
         <Route path="/notfound" component={NotFound}/>
         <Route path="/rentals" component={Rentals}/>
