@@ -1,8 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { getMovie, saveMovie } from "../StarterCode/Starter Code/services/fakeMovieService";
-import { getGenres } from "../StarterCode/Starter Code/services/fakeGenreService";
+import { getMovie, saveMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 
 class MovieForm extends Form {
   state = {
@@ -36,28 +36,32 @@ class MovieForm extends Form {
       .label("Daily Rental Rate")
   };
 
-  componentDidMount() {
-    const genres = getGenres();
+  async componentDidMount() {
+    const {data:genres} =await getGenres();
     this.setState({ genres:genres });
+    try{
+    const movieId = this.props.match.params.id;
+    if (movieId === "new") return;
+
+  const{data:movie}  = await getMovie(movieId);
+  //all the place data is the thing in which we get the movie details from bckend
+  this.setState({ data: this.mapToViewModel(movie) });
+}
+catch(ex){
+ if( ex.response&&ex.response.status===404)
+ this.props.history.replace("/notfound");
+}
+}
+  mapToViewModel(movie) {
+    return {
+      _id: movie._id,
+      title: movie.title,
+      genreId: movie.genre._id,
+      numberInStock: movie.numberInStock,
+      dailyRentalRate: movie.dailyRentalRate
+    };
   }
-//     const movieId = this.props.match.params.id;
-//     if (movieId === "new") return;
 
-//     const movie = getMovie(movieId);
-//     //  if (!movie) return this.props.history.replace("/notfound");
-
-//     this.setState({ data: this.mapToViewModel(movie) });
-//   }
-
-//   mapToViewModel(movie) {
-//     return {
-//       _id: movie._id,
-//       title: movie.title,
-//       genreId: movie.genre._id,
-//       numberInStock: movie.numberInStock,
-//       dailyRentalRate: movie.dailyRentalRate
-//     };
-//   }
 
   doSubmit = () => {
     saveMovie(this.state.data);
