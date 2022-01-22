@@ -1,9 +1,9 @@
 import React,{Component} from "react";
-import {getMovies} from "../StarterCode/Starter Code/services/fakeMovieService";
+import {getMovies,deleteMovie} from "../services/movieService";
 import Pagination from "./common/pagination";
 import {paginate} from "../utils/paginate";
 import ListGroup from "./common/listGroup";
-import {getGenres} from "../StarterCode/Starter Code/services/fakeGenreService";
+import {getGenres} from "../services/genreService";
 import MoviesTable from "./moviesTable";
 import {Link} from "react-router-dom";
 import _ from "lodash";
@@ -18,13 +18,15 @@ class Movies extends Component{
     selectedGenre: null,
         sortColumn:{path:"title",order:"asc"}
     }
-    componentDidMount(){
-        const genres=[{_id:"",name:"All Genres"},...getGenres()]
+    async componentDidMount(){
+       const {data}=await getGenres()
+        const genres=[{_id:"",name:"All Genres"},...data]
         this.setState({movies:getMovies(),genres:genres})
     }
 handleDelete=(movie)=>{
      const movies=this.state.movies.filter(m=>m._id !== movie._id)
      this.setState({movies})
+     deleteMovie(movie._id)
     }
     handleLike=(movie)=>{
         const movies=[...this.state.movies];
