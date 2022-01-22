@@ -1,7 +1,8 @@
-import httpService from "./logService";
+import httpService from "./httpService";
+import config from "../config.json"
 export function getMovies(){
-    return httpService.get("http://localhost:5000/api/movies")
+    return httpService.get(config.apiUrl+"/movies")
 }
 export function deleteMovie(movieId){
-    return httpService.delete("http://localhost:5000/api/movies"+movieId)
+    return httpService.delete(config.apiUrl+"/movies"+"/"+movieId)
 }
