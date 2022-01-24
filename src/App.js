@@ -1,5 +1,4 @@
 import React,{Component} from "react";
-import jwtDecode from "jwt-decode"
 import Movies from "./components/movies";
 import {Switch,Route, Redirect} from "react-router-dom";
 import Navbar from "./components/navbar";
@@ -11,16 +10,13 @@ import MoviesForm from "./components/moviesForm";
 import Customers from "./components/customers";
 import Logout from "./components/logout";
 import {ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import "react-toastify/dist/ReactToastify.css";
+import auth from "./services/authService"
 class App extends Component{
   state={user:"" }
   componentDidMount() {
-    try{
-      const jwt=localStorage.getItem("token")
-    const user=jwtDecode(jwt)
+   const user= auth.getCurrentUser()
     this.setState({user})
-    }
-    catch{}
     
   }
   render(){

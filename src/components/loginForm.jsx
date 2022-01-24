@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import Joi from "joi-browser";
 import Form from "./common/form"
-import {login} from "../services/authService"
+import auth from "../services/authService"
 class Login extends Form{
     state={
         data:{username:"",password:""},
@@ -13,8 +13,7 @@ class Login extends Form{
     }
     doSubmit=async()=>{
         try{
-          const{data:jwt}=await login(this.state.data.username,this.state.data.password)
-          localStorage.setItem("token",jwt)
+          await auth.login(this.state.data.username,this.state.data.password)
           //this.props.history.push("/")
           window.location="/"
         }
