@@ -12,6 +12,7 @@ import Logout from "./components/logout";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {getCurrentUser}from "./services/authService"
+import ProtectedRoute from "./components/common/protectedRoute";
 class App extends Component{
   state={user:"" }
   componentDidMount() {
@@ -27,9 +28,7 @@ return(
     <ToastContainer/>
     <main className="container">
       <Switch>
-      <Route path="/movies/:id" 
-      render={props=>{if (!this.state.user) return <Redirect to ="/login"/>
-      return(<MoviesForm {...props}/>)}}/>
+      <ProtectedRoute path="/movies/:id" component={MoviesForm}/>
         <Route path="/movies" 
         render={props=><Movies {...props}  user={this.state.user}/>}/>
         <Route path="/notfound" component={NotFound}/>
