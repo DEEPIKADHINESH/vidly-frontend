@@ -27,8 +27,11 @@ return(
     <ToastContainer/>
     <main className="container">
       <Switch>
-      <Route path="/movies/:id" component={MoviesForm}/>
-        <Route path="/movies" render={props=><Movies {...props}  user={this.state.user}/>}/>
+      <Route path="/movies/:id" 
+      render={props=>{if (!this.state.user) return <Redirect to ="/login"/>
+      return(<MoviesForm {...props}/>)}}/>
+        <Route path="/movies" 
+        render={props=><Movies {...props}  user={this.state.user}/>}/>
         <Route path="/notfound" component={NotFound}/>
         <Route path="/rentals" component={Rentals}/>
         <Route path="/login" component={Login}/>
