@@ -7,7 +7,13 @@ export function getMovies(){
 export function getMovie(movieId){
     return httpService.get(apiEndPoint+"/"+movieId)
 }
-export function saveMovie(){
+export function saveMovie(movie){
+    if(movie._id){
+        const body={...movie}
+        delete body._id;
+      return  httpService.put(apiEndPoint+"/"+movie._id,body)
+    }
+    return httpService.post(apiEndPoint,movie) 
 
 }
 export function deleteMovie(movieId){
