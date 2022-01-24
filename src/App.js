@@ -9,6 +9,7 @@ import Login from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import MoviesForm from "./components/moviesForm";
 import Customers from "./components/customers";
+import Logout from "./components/logout";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 class App extends Component{
@@ -35,6 +36,7 @@ return(
         <Route path="/notfound" component={NotFound}/>
         <Route path="/rentals" component={Rentals}/>
         <Route path="/login" component={Login}/>
+        <Route path="/logout" component={Logout}/>
         <Route path="/registerForm" component={RegisterForm}/>
         <Route path="/customers" component={Customers}/>
         <Redirect from="/"  exact to ="/movies"/>
