@@ -1,4 +1,5 @@
-import React from "react";
+import React,{Component} from "react";
+import jwtDecode from "jwt-decode"
 import Movies from "./components/movies";
 import {Switch,Route, Redirect} from "react-router-dom";
 import Navbar from "./components/navbar";
@@ -10,10 +11,22 @@ import MoviesForm from "./components/moviesForm";
 import Customers from "./components/customers";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
-function App(){
+class App extends Component{
+  state={user:"" }
+  componentDidMount() {
+    try{
+      const jwt=localStorage.getItem("token")
+    const user=jwtDecode(jwt)
+    this.setState({user})
+    }
+    catch{}
+    
+  }
+  render(){
+
 return(
   <div className="App">
-    <Navbar/>
+    <Navbar user={this.state.user}/>
     <ToastContainer/>
     <main className="container">
       <Switch>
@@ -30,7 +43,8 @@ return(
     </main>
 
     </div>
-  
+
 )
+}
 }
 export default App;
