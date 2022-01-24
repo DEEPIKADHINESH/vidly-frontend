@@ -72,8 +72,9 @@ handleDelete=async(movie)=>{
         return {totalCount:filtered,data:movies}
     }
 render(){
-    
+    const {user}=this.props;
     if(this.state.movies.length===0)
+
     return <p>There are no movies in db</p>
     const {totalCount,data:movies}=this.getPagedData()
    
@@ -91,7 +92,7 @@ render(){
         </div>
         <div className="col">
        <p>Showing {totalCount.length} movies in db</p>
-       <Link to="/movies/new" className="btn btn-primary">NEW MOVIE</Link>
+      {user && <Link to="/movies/new" className="btn btn-primary">NEW MOVIE</Link>} 
        <SearchBox value={this.state.searchQuery} onChange={this.handleSearch} />
 <MoviesTable movies={movies}
              onLike={this.handleLike}

@@ -11,11 +11,11 @@ import Customers from "./components/customers";
 import Logout from "./components/logout";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import auth from "./services/authService"
+import {getCurrentUser}from "./services/authService"
 class App extends Component{
   state={user:"" }
   componentDidMount() {
-   const user= auth.getCurrentUser()
+   const user= getCurrentUser()
     this.setState({user})
     
   }
@@ -27,8 +27,8 @@ return(
     <ToastContainer/>
     <main className="container">
       <Switch>
-      <Route path="/movies/new" component={MoviesForm}/>
-        <Route path="/movies" component={Movies}/>
+      <Route path="/movies/:id" component={MoviesForm}/>
+        <Route path="/movies" render={props=><Movies {...props}  user={this.state.user}/>}/>
         <Route path="/notfound" component={NotFound}/>
         <Route path="/rentals" component={Rentals}/>
         <Route path="/login" component={Login}/>
